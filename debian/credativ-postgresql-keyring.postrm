@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+case $1 in
+	purge)
+		export APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=yeah
+		apt-key del F797920785697B85B92E8034C86768840A59F867 || :
+		;;
+esac
+
+#DEBHELPER#

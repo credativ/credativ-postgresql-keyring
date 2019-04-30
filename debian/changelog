@@ -1,0 +1,5 @@
+credativ-postgresql-keyring (2019.1) credativ; urgency=medium
+
+  * Initial release.
+
+ -- Christoph Berg <myon@debian.org>  Tue, 30 Apr 2019 15:51:52 +0200

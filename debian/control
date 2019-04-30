@@ -1,0 +1,16 @@
+Source: credativ-postgresql-keyring
+Section: database
+Priority: optional
+Maintainer: credativ GmbH <info@credativ.de>
+Uploaders: Christoph Berg <myon@debian.org>,
+Standards-Version: 4.2.0
+Build-Depends: gnupg, debhelper (>> 9)
+Vcs-Browser: https://github.com/credativ/credativ-postgresql-keyring
+Vcs-Git: https://github.com/credativ/credativ-postgresql-keyring.git
+
+Package: credativ-postgresql-keyring
+Architecture: all
+Depends: ${misc:Depends}, apt
+Description: keyring for packages.credativ.com
+ This package contains the public key used for signing the repository.
+ It should be installed on all hosts using the repository.

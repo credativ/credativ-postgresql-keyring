@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+case $1 in
+	configure)
+		export APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=yeah
+		apt-key add /usr/share/elephant-shed/aptly.key
+		;;
+esac
+
+#DEBHELPER#
