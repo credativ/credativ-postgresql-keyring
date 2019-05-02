@@ -1,0 +1,4 @@
+.debhelper/
+credativ-postgresql-keyring.debhelper.log
+credativ-postgresql-keyring.substvars
+credativ-postgresql-keyring/

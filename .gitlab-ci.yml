@@ -2,7 +2,9 @@ stages:
   - build
   - publish
 
-build:all:
+## build ##
+
+build:debian:
   tags:
     - aptly
   stage: build
@@ -16,12 +18,28 @@ build:all:
     paths:
       - '*_*.*'
 
-publish:stretch-test: &publish
+build:centos:
+  tags:
+    - aptly
+  stage: build
+  script:
+    - sudo apt-get -y --no-install-recommends install rpm
+    - rpmbuild -D"%_topdir $PWD" -D"%_sourcedir $PWD" -ba credativ-repo.spec
+    - rpm --addsign RPMS/noarch/*.rpm SRPMS/*.rpm
+  artifacts:
+    expire_in: 2 weeks
+    paths:
+      - RPMS/*/*.rpm
+      - SRPMS/*.rpm
+
+## publish ##
+
+publish:stretch-test: &publish_debian
   tags:
     - aptly
   stage: publish
   dependencies:
-    - build:all
+    - build:debian
   script:
     - aptly repo add $dist *.dsc *.deb
     - aptly publish update $dist
@@ -30,18 +48,38 @@ publish:stretch-test: &publish
     dist: stretch-test
 
 publish:stretch-stable:
-  <<: *publish
+  <<: *publish_debian
   variables:
     dist: stretch-stable
   when: manual
 
 publish:bionic-test:
-  <<: *publish
+  <<: *publish_debian
   variables:
     dist: bionic-test
 
 publish:bionic-stable:
-  <<: *publish
+  <<: *publish_debian
   variables:
     dist: bionic-stable
+  when: manual
+
+publish:el7-test: &publish_centos
+  tags:
+    - aptly
+  stage: publish
+  dependencies:
+    - build:centos
+  script:
+    - cp RPMS/noarch/*.rpm ~/postgresql/yum/$dist/noarch
+    - cp SRPMS/*.rpm ~/postgresql/yum/$dist/src
+    - cd
+    - make $dist
+  variables:
+    dist: el7-test
+
+publish:el7:
+  <<: *publish_centos
+  variables:
+    dist: el7
   when: manual

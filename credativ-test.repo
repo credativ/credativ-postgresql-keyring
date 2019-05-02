@@ -1,0 +1,13 @@
+[credativ-test-arch]
+name=Elephant Shed for Red Hat/CentOS $releasever - $basearch - test
+baseurl=https://packages.credativ.com/public/postgresql/yum/el$releasever-test/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/CREDATIV-KEY
+
+[credativ-test-noarch]
+name=Elephant Shed for Red Hat/CentOS $releasever - noarch - test
+baseurl=https://packages.credativ.com/public/postgresql/yum/el$releasever-test/noarch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/CREDATIV-KEY
