@@ -1,0 +1,47 @@
+stages:
+  - build
+  - publish
+
+build:all:
+  tags:
+    - aptly
+  stage: build
+  script:
+    - sudo apt-get -y --no-install-recommends install build-essential fakeroot
+    - sudo apt-get -y --no-install-recommends build-dep ./
+    - dpkg-buildpackage -us -uc -rfakeroot
+    - mv ../*_*.* .
+  artifacts:
+    expire_in: 2 weeks
+    paths:
+      - '*_*.*'
+
+publish:stretch-test: &publish
+  tags:
+    - aptly
+  stage: publish
+  dependencies:
+    - build:all
+  script:
+    - aptly repo add $dist *.dsc *.deb
+    - aptly publish update $dist
+    - sync_packages.sh
+  variables:
+    dist: stretch-test
+
+publish:stretch-stable:
+  <<: *publish
+  variables:
+    dist: stretch-stable
+  when: manual
+
+publish:bionic-test:
+  <<: *publish
+  variables:
+    dist: bionic-test
+
+publish:bionic-stable:
+  <<: *publish
+  variables:
+    dist: bionic-stable
+  when: manual
