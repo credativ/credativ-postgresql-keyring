@@ -1,3 +1,9 @@
+credativ-postgresql-keyring (2019.2) credativ; urgency=medium
+
+  * Revoke the old "test" uid on the gpg key.
+
+ -- Christoph Berg <myon@debian.org>  Thu, 02 May 2019 10:57:31 +0200
+
 credativ-postgresql-keyring (2019.1) credativ; urgency=medium
 
   * Initial release.
